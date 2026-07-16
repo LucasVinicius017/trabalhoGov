@@ -1,0 +1,417 @@
+/* ======================================
+   DASHBOARD - MONITOR PMPP
+====================================== */
+
+:root{
+
+    --azul-principal:#0F5FA8;
+    --azul-secundario:#1976D2;
+    --azul-hover:#0B4C86;
+
+    --verde:#2E7D32;
+    --vermelho:#C62828;
+    --amarelo:#F9A825;
+
+    --branco:#FFFFFF;
+    --cinza:#F4F6F9;
+    --cinza-claro:#E5E7EB;
+
+    --texto:#263238;
+    --texto-claro:#607D8B;
+
+    --sombra:0 4px 10px rgba(0,0,0,.10);
+
+}
+
+/* ======================================
+   GERAL
+====================================== */
+
+*{
+
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+
+}
+
+body{
+
+    display:flex;
+
+    min-height:100vh;
+
+    background:var(--cinza);
+
+    font-family:Arial, Helvetica, sans-serif;
+
+}
+
+/* ======================================
+   SIDEBAR
+====================================== */
+
+.sidebar{
+
+    width:250px;
+
+    background:var(--azul-principal);
+
+    color:var(--branco);
+
+    padding:25px;
+
+    position:fixed;
+
+    top:0;
+
+    left:0;
+
+    bottom:0;
+
+}
+
+.logo{
+
+    text-align:center;
+
+    margin-bottom:40px;
+
+    font-size:28px;
+
+}
+
+.menu-lista{
+
+    list-style:none;
+
+}
+
+.menu-lista li{
+
+    padding:15px;
+
+    margin-bottom:10px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.menu-lista li:hover{
+
+    background:var(--azul-hover);
+
+}
+
+.ativo{
+
+    background:var(--azul-secundario);
+
+}
+
+/* ======================================
+   CONTEÚDO
+====================================== */
+
+.conteudo{
+
+    margin-left:250px;
+
+    width:calc(100% - 250px);
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+/* ======================================
+   TOPO
+====================================== */
+
+.topbar{
+
+    background:var(--branco);
+
+    padding:25px;
+
+    box-shadow:var(--sombra);
+
+}
+
+.topbar h1{
+
+    color:var(--texto);
+
+    margin-bottom:5px;
+
+}
+
+.topbar p{
+
+    color:var(--texto-claro);
+
+}
+
+/* ======================================
+   MAIN
+====================================== */
+
+.dashboard{
+
+    padding:30px;
+
+}
+
+/* ======================================
+   CARDS
+====================================== */
+
+.cards{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:20px;
+
+    margin-bottom:30px;
+
+}
+
+.card{
+
+    background:var(--branco);
+
+    border-radius:10px;
+
+    padding:25px;
+
+    box-shadow:var(--sombra);
+
+    transition:.3s;
+
+}
+
+.card:hover{
+
+    transform:translateY(-5px);
+
+}
+
+.card h2{
+
+    color:var(--texto);
+
+    margin-bottom:15px;
+
+    font-size:18px;
+
+}
+
+.valor{
+
+    font-size:40px;
+
+    font-weight:bold;
+
+    color:var(--azul-principal);
+
+}
+
+/* ======================================
+   GRÁFICOS
+====================================== */
+
+.graficos{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:20px;
+
+    margin-bottom:30px;
+
+}
+
+.grafico{
+
+    background:var(--branco);
+
+    border-radius:10px;
+
+    padding:20px;
+
+    box-shadow:var(--sombra);
+
+}
+
+.grafico h2{
+
+    margin-bottom:20px;
+
+    color:var(--texto);
+
+}
+
+canvas{
+
+    width:100%;
+
+    height:300px;
+
+}
+
+/* ======================================
+   ATIVIDADES
+====================================== */
+
+.atividades{
+
+    background:var(--branco);
+
+    border-radius:10px;
+
+    padding:20px;
+
+    box-shadow:var(--sombra);
+
+}
+
+.atividades h2{
+
+    margin-bottom:20px;
+
+}
+
+/* ======================================
+   TABELA
+====================================== */
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+thead{
+
+    background:var(--azul-principal);
+
+    color:var(--branco);
+
+}
+
+th{
+
+    padding:15px;
+
+    text-align:left;
+
+}
+
+td{
+
+    padding:15px;
+
+    border-bottom:1px solid var(--cinza-claro);
+
+}
+
+tbody tr:hover{
+
+    background:#F8F9FA;
+
+}
+
+/* ======================================
+   RESPONSIVIDADE
+====================================== */
+
+@media(max-width:1200px){
+
+    .cards{
+
+        grid-template-columns:repeat(2,1fr);
+
+    }
+
+}
+
+@media(max-width:900px){
+
+    .graficos{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+@media(max-width:768px){
+
+    body{
+
+        flex-direction:column;
+
+    }
+
+    .sidebar{
+
+        position:relative;
+
+        width:100%;
+
+        height:auto;
+
+    }
+
+    .conteudo{
+
+        width:100%;
+
+        margin-left:0;
+
+    }
+
+    .cards{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+@media(max-width:500px){
+    .topbar{
+
+        padding:15px;
+
+    }
+
+    .dashboard{
+
+        padding:15px;
+
+    }
+
+    .card{
+
+        padding:20px;
+
+    }
+
+    .valor{
+
+        font-size:30px;
+
+    }
+
+}

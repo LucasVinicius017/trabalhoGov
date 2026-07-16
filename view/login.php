@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/css/login.css">
+    <title>Login</title>
+</head>
+<body>
+    <main>
+        <header>
+            <h1>Monitor PMPP</h1>
+            <h2>Login do Sistema</h2>
+        </header>
+        <section class="login">
+            <form action="" method="post">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" name="email" placeholder="Digite seu e-mail" required>
+                <label for="senha">Senha</label>
+                <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required>
+                <button type="submit">
+                    Entrar
+                </button>
+            </form>
+        </section>
+        <footer>
+            <p>&copy; 2026 - Monitor PMPP</p>
+        </footer>
+    </main>
+</body>
+</html>
