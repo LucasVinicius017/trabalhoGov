@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/usuario.css' %}">
+    <title>Usuários</title>
+</head>
+
+<body>
+    <aside class="sidebar">
+        <h1 class="logo">Monitor PMPP</h1>
+        <nav class="menu">
+            <ul class="menu-lista">
+                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                <li><a href="{% url 'pontos' %}">Pontos Wi-Fi</a></li>
+                <li><a href="{% url 'manutencoes' %}">Manutenções</a></li>
+                <li class="ativo"><a href="{% url 'usuarios' %}">Usuários</a></li>
+                <li><a href="{% url 'relatorios' %}">Relatórios</a></li>
+                <li><a href="#">Configurações</a></li>
+                <li><a href="{% url 'logout' %}">Sair</a></li>
+            </ul>
+        </nav>
+    </aside>
+    <section class="conteudo">
+        <header>
+            <h1>Usuários</h1>
+            <section class="acoes-topo">
+            <form method="POST" class="pesquisa">
+                {% csrf_token %}
+                <input type="text" name="pesquisa" placeholder="Pesquisar nome ou e-mail" value="{{ pesquisa }}">
+                <button type="submit" class="botao botao-pesquisar">Pesquisar</button>
+                <a href="{% url 'novo_usuario' %}" class="botao botao-novo">Novo Usuário</a>
+            </form>
+        </section>
+        </header>
+        <main>
+            <table>
+                <caption>Lista de Usuários</caption>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>E-mail</th>
+                        <th>Perfil</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for usuario in usuarios %}
+                    <tr>
+                        <td>{{ usuario.nome }}</td>
+                        <td>{{ usuario.email }}</td>
+                        <td>{{ usuario.perfil }}</td>
+                        <td>{{ usuario.status }}</td>
+                        <td class="acoes">
+                        <a href="{% url 'editar_usuario' usuario.id %}" class="botao botao-editar">Editar</a>
+                        <form method="POST" action="{% url 'excluir_usuario' usuario.id %}" class="form-excluir">
+                            
+                            {% csrf_token %}
+                            <button type="submit" class="botao botao-excluir" onclick="return confirm('Deseja realmente excluir este usuário?');">Excluir</button>
+                        </form>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5">Nenhum usuário cadastrado.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </main>
+    </section>
+    <footer>
+
+    </footer>
+</body>
+</html>

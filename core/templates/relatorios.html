@@ -1,0 +1,468 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{% static 'css/relatorios.css' %}">
+
+    <title>Relatórios - Monitor PMPP</title>
+</head>
+
+<body>
+
+    <aside class="sidebar">
+
+        <h1 class="logo">Monitor PMPP</h1>
+
+        <nav>
+            <ul class="menu-lista">
+
+                <li>
+                    <a href="{% url 'dashboard' %}">
+                        Dashboard
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'pontos' %}">
+                        Pontos Wi-Fi
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'manutencoes' %}">
+                        Manutenções
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'usuarios' %}">
+                        Usuários
+                    </a>
+                </li>
+
+                <li class="ativo">
+                    <a href="{% url 'relatorios' %}">
+                        Relatórios
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        Configurações
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'logout' %}">
+                        Sair
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+
+    </aside>
+
+
+    <section class="conteudo">
+
+        <header class="topbar">
+
+            <h2>Relatórios</h2>
+
+            <p>
+                Visualize e exporte informações do sistema
+            </p>
+
+        </header>
+
+
+        <main class="pagina">
+
+            <section class="painel">
+
+                <h2>Filtros</h2>
+
+
+                <form method="POST">
+
+                    {% csrf_token %}
+
+                    <section class="filtros">
+
+                        <section class="campo">
+
+                            <label for="data_inicial">
+                                Data Inicial
+                            </label>
+
+                            <input
+                                type="date"
+                                id="data_inicial"
+                                name="data_inicial"
+                                value="{{ data_inicial }}"
+                            >
+
+                        </section>
+
+
+                        <section class="campo">
+
+                            <label for="data_final">
+                                Data Final
+                            </label>
+
+                            <input
+                                type="date"
+                                id="data_final"
+                                name="data_final"
+                                value="{{ data_final }}"
+                            >
+
+                        </section>
+
+
+                        <section class="campo">
+
+                            <label for="tipo">
+                                Tipo
+                            </label>
+
+                            <select id="tipo" name="tipo">
+
+                                <option
+                                    value="todos"
+                                    {% if tipo == "todos" %}selected{% endif %}
+                                >
+                                    Todos
+                                </option>
+
+                                <option
+                                    value="pontos"
+                                    {% if tipo == "pontos" %}selected{% endif %}
+                                >
+                                    Pontos Wi-Fi
+                                </option>
+
+                                <option
+                                    value="manutencoes"
+                                    {% if tipo == "manutencoes" %}selected{% endif %}
+                                >
+                                    Manutenções
+                                </option>
+
+                                <option
+                                    value="usuarios"
+                                    {% if tipo == "usuarios" %}selected{% endif %}
+                                >
+                                    Usuários
+                                </option>
+
+                            </select>
+
+                        </section>
+
+                    </section>
+
+
+                    <section class="botoes-relatorio">
+
+                        <button
+                            type="submit"
+                            name="acao"
+                            value="pdf"
+                            class="botao botao-pdf"
+                        >
+                            Gerar PDF
+                        </button>
+
+
+                        <button
+                            type="submit"
+                            name="acao"
+                            value="excel"
+                            class="botao botao-excel"
+                        >
+                            Gerar Excel
+                        </button>
+
+
+                        <button
+                            type="submit"
+                            name="acao"
+                            value="visualizar"
+                            class="botao botao-visualizar"
+                        >
+                            Visualizar
+                        </button>
+
+                    </section>
+
+                </form>
+
+
+                <section class="resumo">
+
+                    <h2>Resumo</h2>
+
+                    <section class="cards">
+
+                        <article class="card">
+
+                            <h3>Total de Pontos</h3>
+
+                            <strong>
+                                {{ total_pontos }}
+                            </strong>
+
+                        </article>
+
+
+                        <article class="card">
+
+                            <h3>Online</h3>
+
+                            <strong>
+                                {{ pontos_online }}
+                            </strong>
+
+                        </article>
+
+
+                        <article class="card">
+
+                            <h3>Offline</h3>
+
+                            <strong>
+                                {{ pontos_offline }}
+                            </strong>
+
+                        </article>
+
+
+                        <article class="card">
+
+                            <h3>Em Manutenção</h3>
+
+                            <strong>
+                                {{ pontos_manutencao }}
+                            </strong>
+
+                        </article>
+
+                    </section>
+
+                </section>
+
+
+                {% if mostrar_resultado %}
+
+                <section class="resultado">
+
+                    <h2>Resultado do Relatório</h2>
+
+
+                    {% if tipo == "pontos" or tipo == "todos" %}
+
+                    <section class="tabela-relatorio">
+
+                        <h3>Pontos Wi-Fi</h3>
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Nome</th>
+                                    <th>Cidade</th>
+                                    <th>IP</th>
+                                    <th>Status</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                {% for ponto in pontos %}
+
+                                <tr>
+
+                                    <td>{{ ponto.codigo }}</td>
+
+                                    <td>{{ ponto.nome }}</td>
+
+                                    <td>{{ ponto.cidade }}</td>
+
+                                    <td>{{ ponto.ip }}</td>
+
+                                    <td>{{ ponto.status }}</td>
+
+                                </tr>
+
+                                {% empty %}
+
+                                <tr>
+
+                                    <td colspan="5">
+                                        Nenhum ponto encontrado.
+                                    </td>
+
+                                </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </section>
+
+                    {% endif %}
+
+
+                    {% if tipo == "manutencoes" or tipo == "todos" %}
+
+                    <section class="tabela-relatorio">
+
+                        <h3>Manutenções</h3>
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+                                    <th>Ponto Wi-Fi</th>
+                                    <th>Problema</th>
+                                    <th>Responsável</th>
+                                    <th>Status</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                {% for manutencao in manutencoes %}
+
+                                <tr>
+
+                                    <td>
+                                        {{ manutencao.ponto.nome }}
+                                    </td>
+
+                                    <td>
+                                        {{ manutencao.problema }}
+                                    </td>
+
+                                    <td>
+                                        {{ manutencao.responsavel.nome }}
+                                    </td>
+
+                                    <td>
+                                        {{ manutencao.status }}
+                                    </td>
+
+                                </tr>
+
+                                {% empty %}
+
+                                <tr>
+
+                                    <td colspan="4">
+                                        Nenhuma manutenção encontrada.
+                                    </td>
+
+                                </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </section>
+
+                    {% endif %}
+
+
+                    {% if tipo == "usuarios" or tipo == "todos" %}
+
+                    <section class="tabela-relatorio">
+
+                        <h3>Usuários</h3>
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>E-mail</th>
+                                    <th>Perfil</th>
+                                    <th>Status</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                {% for usuario in usuarios %}
+
+                                <tr>
+
+                                    <td>
+                                        {{ usuario.nome }}
+                                    </td>
+
+                                    <td>
+                                        {{ usuario.email }}
+                                    </td>
+
+                                    <td>
+                                        {{ usuario.perfil }}
+                                    </td>
+
+                                    <td>
+                                        {{ usuario.status }}
+                                    </td>
+
+                                </tr>
+
+                                {% empty %}
+
+                                <tr>
+
+                                    <td colspan="4">
+                                        Nenhum usuário encontrado.
+                                    </td>
+
+                                </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </section>
+
+                    {% endif %}
+
+                </section>
+
+                {% endif %}
+
+            </section>
+
+        </main>
+
+    </section>
+
+</body>
+
+</html>

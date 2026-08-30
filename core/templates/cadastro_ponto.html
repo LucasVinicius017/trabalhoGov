@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/cadastro_ponto.css' %}">
+    <title>Cadastro de Ponto Wi-Fi</title>
+</head>
+    <body>
+        <aside class="sidebar">
+            <h1 class="logo">Monitor PMPP</h1>
+            <nav class="menu">
+                <ul class="menu-lista">
+                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                <li class="ativo"><a href="{% url 'pontos' %}">Pontos Wi-Fi</a></li>
+                <li><a href="{% url 'manutencoes' %}">Manutenções</a></li>
+                <li><a href="{% url 'usuarios' %}">Usuários</a></li>
+                <li><a href="{% url 'relatorios' %}">Relatórios</a></li>
+                <li><a href="#">Configurações</a></li>
+                <li><a href="{% url 'logout' %}">Sair</a></li>
+            </ul>
+            </nav>
+        </aside>
+        <section class="conteudo">
+            <header class="topbar">
+                <h1>Novo Ponto Wi-Fi</h1>
+                <p>Cadastre um novo ponto Wi-Fi no sistema.</p>
+            </header>
+            <main class="area-formulario">
+                <section class="formulario-card">
+                    <h2>Dados do Ponto Wi-Fi</h2>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <section class="campo">
+                            <label for="codigo">Código</label>
+                            <input type="text" id="codigo" name="codigo" placeholder="Ex.: COD001" required>
+                        </section>
+                        <section class="campo">
+                            <label for="nome">Nome</label>
+                            <input type="text" id="nome" name="nome" placeholder="Nome do ponto Wi-Fi" required>
+                        </section>
+                        <section class="campo">
+                            <label for="endereco">Endereço</label>
+                            <input type="text" id="endereco" name="endereco" placeholder="Endereço" required>
+                        </section>
+                        <section class="campo">
+                            <label for="bairro">Bairro</label>
+                            <input type="text" id="bairro" name="bairro" placeholder="Bairro" required>
+                        </section>
+                        <section class="campo">
+                            <label for="cidade">Cidade</label>
+                            <input type="text" id="cidade" name="cidade" placeholder="Cidade" required>
+                        </section>
+                        <section class="campo">
+                            <label for="ip">Endereço IP</label>
+                            <input type="text" id="ip" name="ip" placeholder="Ex.: 192.168.0.1" required>
+                        </section>
+                        <section class="campo">
+                            <label for="status">Status</label>
+                            <select id="status" name="status" required>
+                                <option value="Online">Online</option>
+                                <option value="Offline">Offline</option>
+                                <option value="Manutencao">Em Manutenção</option>
+                            </select>
+                        </section>
+                        <section class="campo">
+                            <label for="observacao">Observação</label>
+                            <textarea id="observacao" name="observacao" rows="5" placeholder="Digite alguma observação, se necessário..."></textarea>
+                        </section>
+                        <section class="acoes-formulario">
+                            <button type="submit" class="botao botao-salvar">Salvar Ponto</button>
+                            <a href="{% url 'pontos' %}" class="botao botao-cancelar">Cancelar</a>
+                        </section>
+                    </form>
+                </section>
+            </main>
+        </section>
+    </body>
+</html>

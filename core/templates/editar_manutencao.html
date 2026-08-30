@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/editar_manutencao.css' %}">
+    <title>Cadastro de Manutenção</title>
+</head>
+<body>
+    <aside class="sidebar">
+        <h1 class="logo">Monitor PMPP</h1>
+        <nav class="menu">
+            <ul class="menu-lista">
+                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                <li><a href="{% url 'pontos' %}">Pontos Wi-Fi</a></li>
+                <li class="ativo"><a href="{% url 'manutencoes' %}">Manutenções</a></li>
+                <li><a href="{% url 'usuarios' %}">Usuários</a></li>
+                <li><a href="{% url 'relatorios' %}">Relatórios</a></li>
+                <li><a href="#">Configurações</a></li>
+                <li><a href="{% url 'logout' %}">Sair</a></li>
+            </ul>
+        </nav>
+    </aside>
+    <section class="conteudo">
+        <header class="topbar">
+            <h1>Editar Manutenção</h1>
+            <p>Altere as informações da manutenção.</p>
+        </header>
+        <main class="area-formulario">
+            <section class="formulario-card">
+                <h2>Dados da Manutenção</h2>
+                <form method="POST">
+                    {% csrf_token %}
+                    <section class="campo">
+                        <label for="ponto">Ponto Wi-Fi</label>
+                        <select id="ponto" name="ponto" required>
+                            {% for ponto in pontos %}
+                            <option value="{{ ponto.id }}" {% if ponto.id == manutencao.ponto.id %} selected {% endif %}>{{ ponto.codigo }} - {{ ponto.nome }}</option>
+                            {% endfor %}
+                        </select>
+                    </section>
+                    <section class="campo">
+                        <label for="problema">Problema</label>
+                        <input type="text" id="problema" name="problema" value="{{ manutencao.problema }}"required>
+                    </section>
+                    <section class="campo">
+                        <label for="responsavel">Responsável</label>
+                        <select
+                            id="responsavel" name="responsavel" required>
+                            {% for usuario in usuarios %}
+                            <option value="{{ usuario.id }}" {% if usuario.id == manutencao.responsavel.id %} selected {% endif %}>{{ usuario.nome }}</option>
+                            {% endfor %}
+                        </select>
+                    </section>
+                    <section class="campo">
+                        <label for="data_abertura">Data de Abertura</label>
+                        <input type="date" id="data_abertura" name="data_abertura" value="{{ manutencao.data_abertura|date:'Y-m-d' }}" required>
+                    </section>
+                    <section class="campo">
+                        <label for="status">Status</label>
+                        <select id="status" name="status" required>
+                            <option value="Aberta" {% if manutencao.status == "Aberta" %} selected {% endif %}>Aberta</option>
+                            <option value="Em andamento" {% if manutencao.status == "Em andamento" %} selected {% endif %}>Em andamento</option>
+                            <option value="Concluída" {% if manutencao.status == "Concluída" %} selected {% endif %}>Concluída</option>
+                        </select>
+                    </section>
+                    <section class="campo">
+                        <label for="observacao">Observação</label>
+                        <textarea id="observacao" name="observacao" rows="5">{{ manutencao.observacao }}</textarea>
+                    </section>
+                    <section class="botoes">
+                        <button type="submit" class="salvar">Salvar Alterações</button>
+                        <a href="{% url 'manutencoes' %}"><button type="button" class="cancelar">Cancelar</button></a>
+                    </section>
+                </form>
+            </section>
+        </main>
+    </section>
+    <footer>
+        <p>&copy; 2026 - Gov18 | Monitor PMPP</p>
+    </footer>
+</body>
+</html>

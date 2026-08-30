@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/editar_usuarios.css' %}">
+    <title>Editar Usuário</title>
+</head>
+<body>
+    <body>
+    <aside class="sidebar">
+        <h1 class="logo">Monitor PMPP</h1>
+        <nav class="menu">
+            <ul class="menu-lista">
+                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                <li><a href="{% url 'pontos' %}">Pontos Wi-Fi</a></li>
+                <li><a href="{% url 'manutencoes' %}">Manutenções</a></li>
+                <li class="ativo"><a href="{% url 'usuarios' %}">Usuários</a></li>
+                <li><a href="{% url 'relatorios' %}">Relatórios</a></li>
+                <li><a href="#">Configurações</a></li>
+                <li><a href="{% url 'logout' %}">Sair</a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+    <section class="conteudo">
+        <header class="topbar">
+            <h1>Editar Usuário</h1>
+            <p>Altere as informações do usuário.</p>
+        </header>
+        <main class="area-formulario">
+            <section class="formulario-card">
+                <h2>Dados do Usuário</h2>
+                <form method="POST">
+                    {% csrf_token %}
+                    <section class="campo">
+                        <label for="nome">Nome</label>
+                        <input type="text" id="nome" name="nome" value="{{ usuario.nome }}" required>
+                    </section>
+                    <section class="campo">
+                        <label for="email">E-mail</label>
+                        <input type="email" id="email" name="email" value="{{ usuario.email }}" required>
+                    </section>
+                    <section class="campo">
+                        <label for="senha">Senha</label>
+                        <input type="password" id="senha" name="senha" value="{{ usuario.senha }}" required>
+                    </section>
+                    <section class="campo">
+                        <label for="perfil">
+                            Perfil
+                        </label>
+                        <select id="perfil" name="perfil" required>
+                            <option value="Administrador" {% if usuario.perfil == "Administrador" %} selected {% endif %}>Administrador</option>
+                            <option value="Usuario" {% if usuario.perfil == "Usuario" %} selected {% endif %}>Usuário</option>
+                        </select>
+                    </section>
+                    <section class="campo">
+                        <label for="status">Status</label>
+                        <select id="status" name="status" required>
+                            <option value="Ativo" {% if usuario.status == "Ativo" %} selected {% endif %}>Ativo</option>
+                            <option value="Inativo" {% if usuario.status == "Inativo" %} selected {% endif %}>Inativo</option>
+                        </select>
+                    </section>
+                    <section class="botoes">
+                        <button type="submit" class="salvar">Salvar Alterações</button>
+                        <a href="{% url 'usuarios' %}" class="cancelar">Cancelar</a>
+                    </section>
+                </form>
+            </section>
+        </main>
+    </section>
+
+
+</body>
+</html>

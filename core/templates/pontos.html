@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/pontos.css' %}">
+    <title>Pontos Wi-Fi</title>
+</head>
+<body>
+      <aside class="sidebar">
+        <h1 class="logo">Monitor PMPP</h1>
+        <nav class="menu">
+            <ul class="menu-lista">
+                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                <li class="ativo"><a href="{% url 'pontos' %}">Pontos Wi-Fi</a></li>
+                <li><a href="{% url 'manutencoes' %}">Manutenções</a></li>
+                <li><a href="{% url 'usuarios' %}">Usuários</a></li>
+                <li><a href="{% url 'relatorios' %}">Relatórios</a></li>
+                <li><a href="#">Configurações</a></li>
+                <li><a href="{% url 'logout' %}">Sair</a></li>
+            </ul>
+        </nav>
+    </aside>
+    <section class="conteudo">
+        <header>
+            <h1>Pontos Wi-Fi</h1>
+            <section>
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="search" name="pesquisa" placeholder="Pesquisar código, nome ou cidade" value="{{ pesquisa }}">
+                    <button type="submit">Pesquisar</button>
+                </form><a href="{% url 'novo_ponto' %}"><button type="button">Novo Ponto</button></a>
+            </section>
+        </header>
+        <main>
+            <table>
+                <caption>Lista de Pontos Wi-Fi</caption>
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Nome</th>
+                        <th>Cidade</th>
+                        <th>IP</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ponto in pontos %}
+                    <tr>
+                        <td>{{ ponto.codigo }}</td>
+                        <td>{{ ponto.nome }}</td>
+                        <td>{{ ponto.cidade }}</td>
+                        <td>{{ ponto.ip }}</td>
+                        <td>{{ ponto.status }}</td>
+                        <td>
+                            <a href="{% url 'editar_ponto' ponto.id %}">
+                                <button type="button" class="editar">
+                                    Editar
+                                </button>
+                            </a>
+                            <a
+                                href="{% url 'excluir_ponto' ponto.id %}"
+                                onclick="return confirm('Deseja realmente excluir este ponto?')"
+                            >
+                                <button type="button" class="excluir">
+                                    Excluir
+                                </button>
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6">Nenhum ponto cadastrado.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </main>
+    </section>
+</body>
+</html>

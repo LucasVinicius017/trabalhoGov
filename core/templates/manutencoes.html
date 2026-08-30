@@ -1,0 +1,93 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/manutencoes.css' %}">
+    <title>Manutenções</title>
+</head>
+
+<body>
+    <aside class="sidebar">
+        <h1 class="logo">Monitor PMPP</h1>
+        <nav class="menu">
+            <ul class="menu-lista">
+                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                <li><a href="{% url 'pontos' %}">Pontos Wi-Fi</a></li>
+                <li class="ativo"><a href="{% url 'manutencoes' %}">Manutenções</a></li>
+                <li><a href="{% url 'usuarios' %}">Usuários</a></li>
+                <li><a href="{% url 'relatorios' %}">Relatórios</a></li>
+                <li><a href="#">Configurações</a></li>
+                <li><a href="{% url 'logout' %}">Sair</a></li>
+            </ul>
+        </nav>
+    </aside>
+    <section class="conteudo">
+        <header>
+            <h1>Manutenções</h1>
+            <section class="acoes">
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="search" name="pesquisa" placeholder="Pesquisar manutenção" value="{{ pesquisa }}">
+                    <button type="submit">Pesquisar</button>
+                </form>
+                <a href="{% url 'nova_manutencao' %}"><button type="button">Nova Manutenção</button></a>
+            </section>
+        </header>
+        <main>
+            <table>
+                <caption>Lista de Manutenções</caption>
+                <thead>
+                    <tr>
+                        <th>Ponto Wi-Fi</th>
+                        <th>Problema</th>
+                        <th>Responsável</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for manutencao in manutencoes %}
+                    <tr>
+                        <td>
+                            {{ manutencao.ponto.nome }}
+                        </td>
+                        <td>
+                            {{ manutencao.problema }}
+                        </td>
+                        <td>
+                            {{ manutencao.responsavel.nome }}
+                        </td>
+                        <td>
+                            {{ manutencao.status }}
+                        </td>
+                        <td class="acoes-tabela">
+                            <a href="{% url 'editar_manutencao' manutencao.id %}"><button type="button"
+                                    class="editar">Editar</button></a>
+                            <form method="POST" action="{% url 'excluir_manutencao' manutencao.id %}"
+                                class="form-excluir">
+                                {% csrf_token %}
+                                <button type="submit" class="excluir"
+                                    onclick="return confirm('Deseja realmente excluir esta manutenção?')">Excluir</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5">
+                            Nenhuma manutenção cadastrada.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </main>
+    </section>
+    <footer>
+        <!-- <p>&copy; 2026 - Gov18 | Monitor PMPP</p> -->
+    </footer>
+</body>
+
+</html>

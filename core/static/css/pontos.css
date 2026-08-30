@@ -1,0 +1,322 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --azul-principal: #0F5FA8;
+    --azul-secundario: #1976D2;
+    --azul-hover: #0B4C86;
+
+    --vermelho: #C62828;
+
+    --branco: #FFFFFF;
+    --cinza: #F4F6F9;
+    --cinza-claro: #E5E7EB;
+
+    --texto: #263238;
+    --texto-claro: #607D8B;
+
+    --sombra: 0 4px 10px rgba(0, 0, 0, .10);
+}
+
+body {
+    min-height: 100vh;
+
+    background: var(--cinza);
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    color: var(--texto);
+}
+
+.sidebar {
+    width: 250px;
+
+    background: var(--azul-principal);
+
+    color: var(--branco);
+
+    padding: 25px;
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+    bottom: 0;
+}
+
+.logo {
+    text-align: center;
+
+    margin-bottom: 40px;
+
+    font-size: 28px;
+}
+
+.menu-lista {
+    list-style: none;
+}
+
+.menu-lista li {
+    padding: 15px;
+
+    margin-bottom: 10px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    transition: .3s;
+}
+
+.menu-lista li:hover {
+    background: var(--azul-hover);
+}
+
+.menu-lista .ativo {
+    background: var(--azul-secundario);
+}
+
+.menu-lista a {
+    display: block;
+
+    color: var(--branco);
+
+    text-decoration: none;
+}
+
+.conteudo {
+    margin-left: 250px;
+
+    width: calc(100% - 250px);
+
+    min-height: 100vh;
+}
+
+header {
+    background: var(--branco);
+
+    padding: 25px;
+
+    box-shadow: var(--sombra);
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+}
+
+header h1 {
+    color: var(--texto);
+
+    font-size: 30px;
+}
+
+header section {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+header form {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+header input[type="search"] {
+    width: 300px;
+
+    padding: 12px 15px;
+
+    border: 1px solid var(--cinza-claro);
+
+    border-radius: 6px;
+
+    font-size: 14px;
+
+    outline: none;
+}
+
+header input[type="search"]:focus {
+    border-color: var(--azul-secundario);
+}
+
+button {
+    border: none;
+
+    border-radius: 6px;
+
+    padding: 11px 18px;
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+    transition: .3s;
+}
+
+header button {
+    background: var(--azul-secundario);
+
+    color: var(--branco);
+}
+
+header button:hover {
+    background: var(--azul-hover);
+}
+
+.editar {
+    background: var(--azul-secundario);
+
+    color: var(--branco);
+}
+
+.editar:hover {
+    background: var(--azul-hover);
+}
+
+.excluir {
+    background: var(--vermelho);
+
+    color: var(--branco);
+}
+
+.excluir:hover {
+    background: #9E1F1F;
+}
+
+main {
+    padding: 30px;
+}
+
+table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    background: var(--branco);
+
+    border-radius: 10px;
+
+    overflow: hidden;
+
+    box-shadow: var(--sombra);
+}
+
+caption {
+    caption-side: top;
+
+    text-align: left;
+
+    background: var(--branco);
+
+    padding: 20px;
+
+    font-size: 20px;
+
+    font-weight: bold;
+
+    color: var(--texto);
+}
+
+thead {
+    background: var(--azul-principal);
+
+    color: var(--branco);
+}
+
+th {
+    padding: 15px;
+
+    text-align: left;
+
+    font-size: 14px;
+}
+
+td {
+    padding: 15px;
+
+    border-bottom: 1px solid var(--cinza-claro);
+
+    font-size: 14px;
+}
+
+tbody tr:hover {
+    background: #F8F9FA;
+}
+
+a {
+    text-decoration: none;
+}
+
+footer {
+    margin-left: 250px;
+
+    padding: 20px;
+
+    text-align: center;
+
+    color: var(--texto-claro);
+}
+
+@media (max-width: 900px) {
+
+    header {
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 20px;
+    }
+
+    header section {
+        width: 100%;
+    }
+
+    header form {
+        width: 100%;
+    }
+
+    header input[type="search"] {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .sidebar {
+        position: relative;
+
+        width: 100%;
+
+        height: auto;
+    }
+
+    .conteudo {
+        width: 100%;
+
+        margin-left: 0;
+    }
+
+    footer {
+        margin-left: 0;
+    }
+
+    main {
+        padding: 15px;
+    }
+
+    table {
+        display: block;
+
+        overflow-x: auto;
+    }
+}

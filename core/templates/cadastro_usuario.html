@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/cadastro_usuario.css' %}">
+    <title>Novo Usuário</title>
+</head>
+<body>
+   <aside class="sidebar">
+        <h1 class="logo">Monitor PMPP</h1>
+        <nav class="menu">
+            <ul class="menu-lista">
+                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                <li><a href="{% url 'pontos' %}">Pontos Wi-Fi</a></li>
+                <li><a href="{% url 'manutencoes' %}">Manutenções</a></li>
+                <li class="ativo"><a href="{% url 'usuarios' %}">Usuários</a></li>
+                <li><a href="{% url 'relatorios' %}">Relatórios</a></li>
+                <li>Configurações</li>
+                <li><a href="{% url 'logout' %}">Sair</a></li>
+            </ul>
+        </nav>
+    </aside>
+    <section class="conteudo">
+        <header class="topbar">
+            <h1>Novo Usuário</h1>
+            <p>Cadastre um novo usuário no sistema.</p>
+        </header>
+        <main class="principal">
+            <section class="formulario-container">
+                <h2>Cadastro de Usuário</h2>
+                <form method="POST">
+                    {% csrf_token %}
+                    <section class="campo">
+                        <label for="nome">Nome</label>
+                        <input type="text" id="nome" name="nome" required>
+                    </section>
+                    <section class="campo">
+                        <label for="email">E-mail</label>
+                        <input type="email" id="email" name="email" required>
+                    </section>
+                    <section class="campo">
+                        <label for="senha">Senha</label>
+                        <input type="password" id="senha" name="senha" required>
+                    </section>
+                    <section class="campo">
+                        <label for="perfil">Perfil</label>
+                        <select id="perfil" name="perfil">
+                            <option value="Administrador">Administrador</option>
+                            <option value="Usuario">Usuário</option>
+                        </select>
+                    </section>
+                    <section class="campo">
+                        <label for="status">Status</label>
+                        <select id="status" name="status">
+                            <option value="Ativo">Ativo</option>
+                            <option value="Inativo">Inativo</option>
+                        </select>
+                    </section>
+                    <section class="botoes">
+                        <button type="submit">Salvar Usuário</button>
+                        <a href="{% url 'usuarios' %}"><button type="button" class="cancelar">Cancelar</button></a>
+                    </section>
+                </form>
+            </section>
+        </main>
+    </section>
+</body>
+</html>

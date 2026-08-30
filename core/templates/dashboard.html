@@ -1,0 +1,90 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <title>Dashboard</title>
+</head>
+<body>
+    <aside class="sidebar">
+        <h1 class="logo">Monitor PMPP</h1>
+        <nav class="menu">
+            <ul class="menu-lista">
+                <li class="ativo"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                <li><a href="{% url 'pontos' %}">Pontos Wi-Fi</a></li>
+                <li><a href="{% url 'manutencoes' %}">Manutenções</a></li>
+                <li><a href="{% url 'usuarios' %}">Usuários</a></li>
+                <li><a href="{% url 'relatorios' %}">Relatórios</a></li>
+                <li><a href="#">Configurações</a></li>
+                <li><a href="{% url 'logout' %}">Sair</a></li>
+            </ul>
+        </nav>
+    </aside>
+    <section class="conteudo">
+        <header class="topbar">
+            <h1>Dashboard</h1>
+            <p>Seja bem-vindo ao Monitor PMPP</p>
+        </header>
+        <main class="dashboard">
+            <section class="cards">
+                <article class="card">
+                    <h2>Pontos Online</h2>
+                    <p>{{ pontos_online }}</p>
+                </article>
+                <article class="card">
+                    <h2>Pontos Offline</h2>
+                    <p>{{ pontos_offline }}</p>
+                </article>
+                <article class="card">
+                    <h2>Em Manutenção</h2>
+                    <p>{{ pontos_manutencao }}</p>
+                </article>
+                <article class="card">
+                    <h2>Total de Pontos</h2>
+                    <p>{{ total_pontos }}</p>
+                </article>
+            </section>
+            <section class="graficos">
+                <article class="grafico">
+                    <h2>Status dos Pontos</h2>
+                    <canvas id="grafico-status"></canvas>
+                </article>
+                <article class="grafico">
+                    <h2>Manutenções por Mês</h2>
+                    <canvas id="grafico-manutencao"></canvas>
+                </article>
+            </section>
+            <section class="atividades">
+                <h2>Últimas Atividades</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Ponto Wi-fi</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                         {% for ponto in ultimos_pontos %}
+                        <tr>
+                            <td>{{ ponto.id }}</td>
+                            <td>{{ ponto.nome }}</td>
+                            <td>{{ ponto.status }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="3">Nenhum ponto cadastrado.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </section>
+    <footer>
+        <p>&copy; 2026 - Gov18 | Monitor PMPP</p>
+    </footer>
+</body>
+</html>
